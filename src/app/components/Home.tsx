@@ -160,7 +160,7 @@ export default function Home() {
             <Button
               variant="contained"
               className="bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg transition-all hover:scale-105"
-              onClick={() => window.open('https://discord.gg/sdsuai', '_blank')}
+              onClick={() => window.open('https://discord.gg/wvAn6Gj3Q', '_blank')}
             >
               Join us on Discord
             </Button>
@@ -387,10 +387,10 @@ export default function Home() {
           </div>
           <p className="text-gray-400 mb-6">Empowering students to explore artificial intelligence since 2017</p>
           <div className="flex justify-center gap-6">
-            <a href="#" className="text-gray-400 hover:text-red-400 transition-colors">Discord</a>
-            <a href="#" className="text-gray-400 hover:text-red-400 transition-colors">GitHub</a>
-            <a href="#" className="text-gray-400 hover:text-red-400 transition-colors">Instagram</a>
-            <a href="#" className="text-gray-400 hover:text-red-400 transition-colors">Email</a>
+            <a href="https://discord.gg/wvAn6Gj3Q" className="text-gray-400 hover:text-red-400 transition-colors">Discord</a>
+            <a href="https://github.com/aiclub-sdsu" className="text-gray-400 hover:text-red-400 transition-colors">GitHub</a>
+            <a href="https://www.instagram.com/sdsuaiclub/" className="text-gray-400 hover:text-red-400 transition-colors">Instagram</a>
+            <a href="mailto:SDSUAIClub@gmail.com" className="text-gray-400 hover:text-red-400 transition-colors">Email</a>
           </div>
         </div>
       </footer>
