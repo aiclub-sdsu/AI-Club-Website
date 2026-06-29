@@ -1,13 +1,13 @@
 import { Users, ArrowLeft } from 'lucide-react';
 import { Button } from '@mui/material';
 import { Link } from 'react-router';
-import photoMandy from '../../photos part 5/Screenshot_2026-06-14_at_7.37.29_PM.png';
+import photoMandy from '../../photos part 6/Screenshot_2026-06-14_at_7.37.29_PM.png';
 import photoPatrick from '../../photos part 5/Screenshot_2026-06-14_at_7.37.19_PM.png';
 import photoSalimeh from '../../photos part 5/Screenshot_2026-06-14_at_7.36.41_PM.png';
 import photoLaura from '../../photos part 5/Screenshot_2026-06-14_at_7.36.29_PM.png';
 import photoAndrei from '../../photos part 5/Screenshot_2026-06-14_at_7.36.16_PM.png';
 import photoAadi from '../../photos part 5/Screenshot_2026-06-14_at_7.38.01_PM.png';
-import photoAlec from '../../photos part 5/Screenshot_2026-06-24_at_2.13.53_PM.png';
+import photoAlec from '../../photos part 6/Screenshot_2026-06-24_at_2.13.53_PM.png';
 import photoElla from '../../photos part 5/Screenshot_2026-06-14_at_7.37.51_PM.png';
 import photoJay from '../../photos part 5/Screenshot_2026-06-14_at_7.37.39_PM.png';
 
