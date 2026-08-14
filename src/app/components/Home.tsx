@@ -183,29 +183,142 @@ export default function Home() {
           </div>
 
           {/* Inline Calendar */}
-          <div className="mt-12 max-w-2xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden">
-              {/* Month header */}
-              <div className="flex items-center justify-between bg-red-600 px-6 py-4">
-                <button
-                  onClick={() => setCalendarMonth(m => Math.max(0, m - 1))}
-                  disabled={calendarMonth === 0}
-                  className="p-1 rounded-full hover:bg-red-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <h3 className="text-xl text-white">
-                  {['August','September','October','November','December','January','February','March','April','May'][calendarMonth]}{' '}
-                  {calendarMonth < 5 ? 2026 : 2027}
-                </h3>
-                <button
-                  onClick={() => setCalendarMonth(m => Math.min(9, m + 1))}
-                  disabled={calendarMonth === 9}
-                  className="p-1 rounded-full hover:bg-red-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
+<div className="mt-12 max-w-2xl mx-auto">
+  {(() => {
+    const EVENTS: Record<string, string[]> = {
+      '2026-09-11': ['Project Introductions', 'Python + ML Workshop'],
+      '2026-09-18': ['Group Formation', 'Social'],
+      '2026-09-25': ['Speaker'],
+      '2026-10-02': ['Social', 'Project Worktime'],
+      '2026-10-09': ['Workshop'],
+      '2026-10-16': ['Project Worktime', 'Social'],
+      '2026-10-23': ['Midterm Presentations'],
+      '2026-10-30': ['Workshop'],
+      '2026-11-06': ['Hackathon', 'Project Worktime'],
+      '2026-11-13': ['Speaker'],
+      '2026-11-20': ['Workshop', 'Project Worktime'],
+      '2026-12-04': ['Final Presentations'],
+    };
+
+    const monthNames = [
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+    ];
+
+    const monthIndexes = [7, 8, 9, 10, 11, 0, 1, 2, 3, 4];
+
+    const monthIndex = monthIndexes[calendarMonth];
+    const year = calendarMonth < 5 ? 2026 : 2027;
+
+    const firstDay = new Date(year, monthIndex, 1).getDay();
+    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+
+    const cells: (number | null)[] = [
+      ...Array(firstDay).fill(null),
+      ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+    ];
+
+    while (cells.length % 7 !== 0) {
+      cells.push(null);
+    }
+
+    const pad = (n: number) => String(n).padStart(2, '0');
+
+    return (
+      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden">
+
+        {/* Month header */}
+        <div className="flex items-center justify-between bg-red-600 px-6 py-4">
+          <button
+            onClick={() => setCalendarMonth(m => Math.max(0, m - 1))}
+            disabled={calendarMonth === 0}
+            className="p-1 rounded-full hover:bg-red-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          <h3 className="text-xl text-white">
+            {monthNames[calendarMonth]} {year}
+          </h3>
+
+          <button
+            onClick={() => setCalendarMonth(m => Math.min(9, m + 1))}
+            disabled={calendarMonth === 9}
+            className="p-1 rounded-full hover:bg-red-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Day labels */}
+        <div className="grid grid-cols-7 px-4 pt-4">
+          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(dayName => (
+            <div
+              key={dayName}
+              className="text-center text-xs text-white/50 font-medium py-2"
+            >
+              {dayName}
+            </div>
+          ))}
+        </div>
+
+        {/* Calendar cells */}
+        <div className="grid grid-cols-7 px-4 pb-6 gap-1">
+          {cells.map((day, i) => {
+            const dateKey = day
+              ? `${year}-${pad(monthIndex + 1)}-${pad(day)}`
+              : null;
+
+            const events = dateKey ? EVENTS[dateKey] : undefined;
+
+            return (
+              <div
+                key={i}
+                className={`min-h-20 rounded-lg p-1 flex flex-col ${
+                  day
+                    ? events
+                      ? 'bg-red-900/40 border border-red-400/50'
+                      : 'hover:bg-white/10'
+                    : ''
+                }`}
+              >
+                {day && (
+                  <>
+                    <span className="text-xs text-white/80 font-medium">
+                      {day}
+                    </span>
+
+                    {events && (
+                      <div className="flex flex-col gap-1 mt-1">
+                        {events.map((event, index) => (
+                          <span
+                            key={index}
+                            className="text-red-200 leading-tight"
+                            style={{ fontSize: '9px' }}
+                          >
+                            {event}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  })()}
+</div>
 
               {/* Day labels */}
               <div className="grid grid-cols-7 px-4 pt-4">
