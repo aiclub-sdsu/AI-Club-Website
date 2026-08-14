@@ -4,16 +4,10 @@ import { Link } from 'react-router';
 import { useState } from 'react';
 
 const MONTHS = [
-  { year: 2026, month: 7 },  // August 2026
   { year: 2026, month: 8 },  // September 2026
   { year: 2026, month: 9 },  // October 2026
   { year: 2026, month: 10 }, // November 2026
   { year: 2026, month: 11 }, // December 2026
-  { year: 2027, month: 0 },  // January 2027
-  { year: 2027, month: 1 },  // February 2027
-  { year: 2027, month: 2 },  // March 2027
-  { year: 2027, month: 3 },  // April 2027
-  { year: 2027, month: 4 },  // May 2027
 ];
 
 const MONTH_NAMES = [
@@ -22,6 +16,26 @@ const MONTH_NAMES = [
 ];
 
 const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+// key: "YYYY-MM-DD", value: event label(s)
+const EVENTS: Record<string, string[]> = {
+  '2026-09-11': ['Project Introductions', 'Python + ML Workshop'],
+  '2026-09-18': ['Group Formation', 'Social'],
+  '2026-09-25': ['Speaker'],
+  '2026-10-02': ['Social', 'Project Worktime'],
+  '2026-10-09': ['Workshop'],
+  '2026-10-16': ['Project Worktime', 'Social'],
+  '2026-10-23': ['Midterm Presentations'],
+  '2026-10-30': ['Workshop'],
+  '2026-11-06': ['Hackathon', 'Project Worktime'],
+  '2026-11-13': ['Speaker'],
+  '2026-11-20': ['Workshop', 'Project Worktime'],
+  '2026-12-04': ['Final Presentations'],
+};
+
+function pad(n: number) {
+  return String(n).padStart(2, '0');
+}
 
 function MonthGrid({ year, month }: { year: number; month: number }) {
   const firstDay = new Date(year, month, 1).getDay();
@@ -43,17 +57,38 @@ function MonthGrid({ year, month }: { year: number; month: number }) {
             <div key={d} className="text-center text-xs text-gray-400 font-medium py-1">{d}</div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-y-1">
-          {cells.map((day, i) => (
-            <div
-              key={i}
-              className={`text-center text-sm py-2 rounded-lg ${
-                day ? 'text-gray-200 hover:bg-gray-700 cursor-default' : ''
-              }`}
-            >
-              {day ?? ''}
-            </div>
-          ))}
+        <div className="grid grid-cols-7 gap-1">
+          {cells.map((day, i) => {
+            const key = day ? `${year}-${pad(month + 1)}-${pad(day)}` : null;
+            const events = key ? EVENTS[key] : null;
+            return (
+              <div
+                key={i}
+                className={`rounded-lg h-24 p-1 flex flex-col ${
+                  day
+                    ? events
+                      ? 'border border-red-500/50 bg-red-900/20'
+                      : 'border border-gray-700/50'
+                    : ''
+                }`}
+              >
+                {day && (
+                  <>
+                    <span className="text-xs font-medium text-gray-300 leading-none mb-1">{day}</span>
+                    {events && (
+                      <div className="flex flex-col gap-0.5 overflow-hidden">
+                        {events.map((e, idx) => (
+                          <span key={idx} className="text-red-300 leading-tight" style={{ fontSize: '9px' }}>
+                            {e}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -84,9 +119,9 @@ export default function Calendar() {
       </div>
 
       <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <h1 className="text-5xl text-center mb-4 text-white">Calendar</h1>
-          <p className="text-center text-gray-400 mb-16 text-lg">Academic Year 2026–2027</p>
+          <p className="text-center text-gray-400 mb-16 text-lg">September – December 2026</p>
 
           {/* Month grid */}
           <div className="grid md:grid-cols-2 gap-8 mb-10">
@@ -127,10 +162,13 @@ export default function Calendar() {
           </div>
 
           <p className="text-center text-gray-500 text-sm mt-4">
-            {MONTH_NAMES[MONTHS[page * monthsPerPage].month]} {MONTHS[page * monthsPerPage].year}
-            {' '}–{' '}
-            {MONTH_NAMES[MONTHS[Math.min(page * monthsPerPage + 1, MONTHS.length - 1)].month]}{' '}
-            {MONTHS[Math.min(page * monthsPerPage + 1, MONTHS.length - 1)].year}
+            {(() => {
+              const start = MONTHS[page * monthsPerPage];
+              const endIdx = Math.min(page * monthsPerPage + monthsPerPage - 1, MONTHS.length - 1);
+              const end = MONTHS[endIdx];
+              if (start === end) return `${MONTH_NAMES[start.month]} ${start.year}`;
+              return `${MONTH_NAMES[start.month]} ${start.year} – ${MONTH_NAMES[end.month]} ${end.year}`;
+            })()}
           </p>
         </div>
       </section>
