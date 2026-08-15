@@ -1,7 +1,6 @@
 import {
   MapPin,
   Users,
-  ExternalLink,
   BookOpen,
   Code,
   Mic,
@@ -80,59 +79,21 @@ const slideshowPhotos = [
 ];
 
 const EVENTS: Record<string, string[]> = {
-  '2026-09-11': [
-    'Project Introductions',
-    'Python + ML Workshop',
-  ],
+  '2026-09-11': ['Project Introductions', 'Python + ML Workshop'],
+  '2026-09-18': ['Group Formation', 'Social'],
+  '2026-09-25': ['Speaker'],
 
-  '2026-09-18': [
-    'Group Formation',
-    'Social',
-  ],
+  '2026-10-02': ['Social', 'Project Worktime'],
+  '2026-10-09': ['Workshop'],
+  '2026-10-16': ['Project Worktime', 'Social'],
+  '2026-10-23': ['Midterm Presentations'],
+  '2026-10-30': ['Workshop'],
 
-  '2026-09-25': [
-    'Speaker',
-  ],
+  '2026-11-06': ['Hackathon', 'Project Worktime'],
+  '2026-11-13': ['Speaker'],
+  '2026-11-20': ['Workshop', 'Project Worktime'],
 
-  '2026-10-02': [
-    'Social',
-    'Project Worktime',
-  ],
-
-  '2026-10-09': [
-    'Workshop',
-  ],
-
-  '2026-10-16': [
-    'Project Worktime',
-    'Social',
-  ],
-
-  '2026-10-23': [
-    'Midterm Presentations',
-  ],
-
-  '2026-10-30': [
-    'Workshop',
-  ],
-
-  '2026-11-06': [
-    'Hackathon',
-    'Project Worktime',
-  ],
-
-  '2026-11-13': [
-    'Speaker',
-  ],
-
-  '2026-11-20': [
-    'Workshop',
-    'Project Worktime',
-  ],
-
-  '2026-12-04': [
-    'Final Presentations',
-  ],
+  '2026-12-04': ['Final Presentations'],
 };
 
 const MONTH_NAMES = [
@@ -142,12 +103,7 @@ const MONTH_NAMES = [
   'December',
 ];
 
-const MONTH_INDEXES = [
-  8,
-  9,
-  10,
-  11,
-];
+const MONTH_INDEXES = [8, 9, 10, 11];
 
 const DAY_NAMES = [
   'Sun',
@@ -166,6 +122,7 @@ function pad(n: number) {
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Calendar:
   // 0 = September
   // 1 = October
   // 2 = November
@@ -193,7 +150,6 @@ export default function Home() {
   }, [nextSlide]);
 
   const monthIndex = MONTH_INDEXES[calendarMonth];
-
   const calendarYear = 2026;
 
   const firstDay = new Date(
@@ -276,18 +232,18 @@ export default function Home() {
 
               </div>
 
-              {/* Previous */}
               <button
                 onClick={prevSlide}
                 className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                aria-label="Previous photo"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
 
-              {/* Next */}
               <button
                 onClick={nextSlide}
                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                aria-label="Next photo"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -299,6 +255,7 @@ export default function Home() {
                   <button
                     key={i}
                     onClick={() => setCurrentSlide(i)}
+                    aria-label={`Go to photo ${i + 1}`}
                     className={`w-2 h-2 rounded-full transition-all ${
                       i === currentSlide
                         ? 'bg-red-400 w-5'
@@ -316,7 +273,7 @@ export default function Home() {
           {/* WHERE AND WHEN */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
 
-            <div className="bg-red-600/90 backdrop-blur-sm rounded-2xl p-8">
+            <div className="bg-red-600/90 backdrop-blur-sm rounded-2xl p-8 flex flex-col justify-center">
 
               <div className="flex items-center justify-center gap-3 mb-4">
 
@@ -328,24 +285,9 @@ export default function Home() {
 
               </div>
 
-              <p className="text-xl mb-2">
+              <p className="text-xl">
                 Fridays from 1:00-3:00 PM
               </p>
-
-              <p className="text-lg mb-4">
-                GMCS 422
-              </p>
-
-              <a
-                href="https://www.google.com/maps/place/GMCS+Building,+San+Diego+State+University"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-white hover:text-red-200 transition-colors"
-              >
-                Get Directions
-
-                <ExternalLink className="w-4 h-4" />
-              </a>
 
             </div>
 
@@ -748,7 +690,6 @@ export default function Home() {
 
             </div>
 
-            {/* AI Image */}
             <div className="rounded-2xl overflow-hidden shadow-lg">
 
               <img
