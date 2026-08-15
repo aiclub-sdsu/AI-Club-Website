@@ -9,12 +9,12 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
+
 import { Button } from '@mui/material';
 import { Link } from 'react-router';
 import { useState, useEffect, useCallback } from 'react';
 
 import workshop1 from '../../imports/Screenshot_2026-05-22_at_11.30.39_PM.png';
-import workshop2 from '../../imports/Screenshot_2026-05-22_at_11.29.39_PM.png';
 import workshop3 from '../../imports/Screenshot_2026-05-22_at_11.25.50_PM.png';
 import seminar from '../../imports/Screenshot_2026-05-22_at_11.25.12_PM.png';
 import competition from '../../imports/Screenshot_2026-05-22_at_11.21.27_PM.png';
@@ -80,36 +80,84 @@ const slideshowPhotos = [
 ];
 
 const EVENTS: Record<string, string[]> = {
-  '2026-09-11': ['Project Introductions', 'Python + ML Workshop'],
-  '2026-09-18': ['Group Formation', 'Social'],
-  '2026-09-25': ['Speaker'],
-  '2026-10-02': ['Social', 'Project Worktime'],
-  '2026-10-09': ['Workshop'],
-  '2026-10-16': ['Project Worktime', 'Social'],
-  '2026-10-23': ['Midterm Presentations'],
-  '2026-10-30': ['Workshop'],
-  '2026-11-06': ['Hackathon', 'Project Worktime'],
-  '2026-11-13': ['Speaker'],
-  '2026-11-20': ['Workshop', 'Project Worktime'],
-  '2026-12-04': ['Final Presentations'],
+  '2026-09-11': [
+    'Project Introductions',
+    'Python + ML Workshop',
+  ],
+
+  '2026-09-18': [
+    'Group Formation',
+    'Social',
+  ],
+
+  '2026-09-25': [
+    'Speaker',
+  ],
+
+  '2026-10-02': [
+    'Social',
+    'Project Worktime',
+  ],
+
+  '2026-10-09': [
+    'Workshop',
+  ],
+
+  '2026-10-16': [
+    'Project Worktime',
+    'Social',
+  ],
+
+  '2026-10-23': [
+    'Midterm Presentations',
+  ],
+
+  '2026-10-30': [
+    'Workshop',
+  ],
+
+  '2026-11-06': [
+    'Hackathon',
+    'Project Worktime',
+  ],
+
+  '2026-11-13': [
+    'Speaker',
+  ],
+
+  '2026-11-20': [
+    'Workshop',
+    'Project Worktime',
+  ],
+
+  '2026-12-04': [
+    'Final Presentations',
+  ],
 };
 
 const MONTH_NAMES = [
-  'August',
   'September',
   'October',
   'November',
   'December',
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
 ];
 
-const MONTH_INDEXES = [7, 8, 9, 10, 11, 0, 1, 2, 3, 4];
+const MONTH_INDEXES = [
+  8,
+  9,
+  10,
+  11,
+];
 
-const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const DAY_NAMES = [
+  'Sun',
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
 
 function pad(n: number) {
   return String(n).padStart(2, '0');
@@ -118,17 +166,23 @@ function pad(n: number) {
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Start on September 2026.
-  // 0 = August, 1 = September, ... 9 = May 2027.
-  const [calendarMonth, setCalendarMonth] = useState(1);
+  // 0 = September
+  // 1 = October
+  // 2 = November
+  // 3 = December
+  const [calendarMonth, setCalendarMonth] = useState(0);
 
   const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % slideshowPhotos.length);
+    setCurrentSlide(
+      (prev) => (prev + 1) % slideshowPhotos.length
+    );
   }, []);
 
   const prevSlide = () => {
     setCurrentSlide(
-      (prev) => (prev - 1 + slideshowPhotos.length) % slideshowPhotos.length
+      (prev) =>
+        (prev - 1 + slideshowPhotos.length) %
+        slideshowPhotos.length
     );
   };
 
@@ -139,9 +193,14 @@ export default function Home() {
   }, [nextSlide]);
 
   const monthIndex = MONTH_INDEXES[calendarMonth];
-  const calendarYear = calendarMonth < 5 ? 2026 : 2027;
 
-  const firstDay = new Date(calendarYear, monthIndex, 1).getDay();
+  const calendarYear = 2026;
+
+  const firstDay = new Date(
+    calendarYear,
+    monthIndex,
+    1
+  ).getDay();
 
   const daysInMonth = new Date(
     calendarYear,
@@ -151,7 +210,10 @@ export default function Home() {
 
   const calendarCells: (number | null)[] = [
     ...Array(firstDay).fill(null),
-    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+    ...Array.from(
+      { length: daysInMonth },
+      (_, i) => i + 1
+    ),
   ];
 
   while (calendarCells.length % 7 !== 0) {
@@ -160,9 +222,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+
+      {/* HERO SECTION */}
       <section className="bg-black text-white py-20 px-6">
+
         <div className="max-w-6xl mx-auto text-center">
+
+          {/* Logo */}
           <div className="mb-8 flex justify-center">
             <img
               src={logo}
@@ -171,38 +237,46 @@ export default function Home() {
             />
           </div>
 
-          <p className="text-2xl text-red-400 mb-16">Since 2017</p>
+          <p className="text-2xl text-red-400 mb-16">
+            Since 2017
+          </p>
 
-          {/* Who We Are */}
+          {/* WHO WE ARE */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-12">
+
             <h2 className="text-3xl mb-6 text-red-400">
               Who We Are
             </h2>
 
             <p className="text-lg leading-relaxed max-w-4xl mx-auto mb-8">
-              The AI Club at SDSU brings together innovative and motivated
-              students to learn about artificial intelligence, machine
-              learning, and data science in a collaborative environment. Join
-              us for workshops, conferences, competitions, and project
-              development!
+              The AI Club at SDSU brings together innovative and
+              motivated students to learn about artificial
+              intelligence, machine learning, and data science in a
+              collaborative environment. Join us for workshops,
+              conferences, competitions, and project development!
             </p>
 
-            {/* Photo Slideshow */}
+            {/* PHOTO SLIDESHOW */}
             <div className="max-w-3xl mx-auto relative group">
+
               <div className="rounded-xl overflow-hidden shadow-2xl aspect-video relative">
+
                 {slideshowPhotos.map((photo, i) => (
                   <img
                     key={i}
                     src={photo}
                     alt={`AI Club photo ${i + 1}`}
                     className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-                      i === currentSlide ? 'opacity-100' : 'opacity-0'
+                      i === currentSlide
+                        ? 'opacity-100'
+                        : 'opacity-0'
                     }`}
                   />
                 ))}
+
               </div>
 
-              {/* Previous slide */}
+              {/* Previous */}
               <button
                 onClick={prevSlide}
                 className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -210,7 +284,7 @@ export default function Home() {
                 <ChevronLeft className="w-5 h-5" />
               </button>
 
-              {/* Next slide */}
+              {/* Next */}
               <button
                 onClick={nextSlide}
                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -218,8 +292,9 @@ export default function Home() {
                 <ChevronRight className="w-5 h-5" />
               </button>
 
-              {/* Slideshow indicators */}
+              {/* Slideshow Dots */}
               <div className="flex justify-center gap-2 mt-4">
+
                 {slideshowPhotos.map((_, i) => (
                   <button
                     key={i}
@@ -231,26 +306,35 @@ export default function Home() {
                     }`}
                   />
                 ))}
+
               </div>
+
             </div>
+
           </div>
 
-          {/* Where and When */}
+          {/* WHERE AND WHEN */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
+
             <div className="bg-red-600/90 backdrop-blur-sm rounded-2xl p-8">
+
               <div className="flex items-center justify-center gap-3 mb-4">
+
                 <MapPin className="w-8 h-8" />
 
                 <h3 className="text-2xl">
                   Where &amp; When We Meet
                 </h3>
+
               </div>
 
               <p className="text-xl mb-2">
                 Fridays from 1:00-3:00 PM
               </p>
 
-              <p className="text-lg mb-4">GMCS 422</p>
+              <p className="text-lg mb-4">
+                GMCS 422
+              </p>
 
               <a
                 href="https://www.google.com/maps/place/GMCS+Building,+San+Diego+State+University"
@@ -259,28 +343,47 @@ export default function Home() {
                 className="inline-flex items-center gap-2 text-white hover:text-red-200 transition-colors"
               >
                 Get Directions
+
                 <ExternalLink className="w-4 h-4" />
               </a>
+
             </div>
 
             <div className="bg-black/90 backdrop-blur-sm rounded-2xl p-8 flex flex-col justify-center">
+
               <div className="flex items-center justify-center gap-3 mb-4">
+
                 <Users className="w-8 h-8" />
-                <h3 className="text-2xl">Who Can Join</h3>
+
+                <h3 className="text-2xl">
+                  Who Can Join
+                </h3>
+
               </div>
 
-              <p className="text-xl">Open to all majors!</p>
-              <p className="text-xl">No experience required!</p>
+              <p className="text-xl">
+                Open to all majors!
+              </p>
+
+              <p className="text-xl">
+                No experience required!
+              </p>
+
             </div>
+
           </div>
 
-          {/* Action Buttons */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          {/* ACTION BUTTONS */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+
             <Button
               variant="contained"
               className="bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg transition-all hover:scale-105"
               onClick={() =>
-                window.open('https://discord.gg/wvAn6Gj3Q', '_blank')
+                window.open(
+                  'https://discord.gg/wvAn6Gj3Q',
+                  '_blank'
+                )
               }
             >
               Join us on Discord
@@ -289,7 +392,7 @@ export default function Home() {
             <Link to="/team">
               <Button
                 variant="outlined"
-                className="border-2 border-white text-white hover:bg-white/10 py-3 px-6 rounded-lg transition-all hover:scale-105 w-full"
+                className="border-2 border-white text-white hover:bg-white/10 py-3 px-6 rounded-lg transition-all hover:scale-105 w-full h-full"
               >
                 Meet the Team
               </Button>
@@ -298,45 +401,66 @@ export default function Home() {
             <Link to="/projects">
               <Button
                 variant="outlined"
-                className="border-2 border-white text-white hover:bg-white/10 py-3 px-6 rounded-lg transition-all hover:scale-105 w-full"
+                className="border-2 border-white text-white hover:bg-white/10 py-3 px-6 rounded-lg transition-all hover:scale-105 w-full h-full"
               >
                 Explore Projects
               </Button>
             </Link>
+
+            <Link to="/current-projects">
+              <Button
+                variant="outlined"
+                className="border-2 border-white text-white hover:bg-white/10 py-3 px-6 rounded-lg transition-all hover:scale-105 w-full h-full"
+              >
+                Current Projects
+              </Button>
+            </Link>
+
           </div>
 
-          {/* Inline Calendar */}
-          <div className="mt-12 max-w-2xl mx-auto">
+          {/* CALENDAR */}
+          <div className="mt-12 max-w-3xl mx-auto">
+
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden">
+
               {/* Month Header */}
               <div className="flex items-center justify-between bg-red-600 px-6 py-4">
+
                 <button
                   onClick={() =>
-                    setCalendarMonth((m) => Math.max(0, m - 1))
+                    setCalendarMonth((m) =>
+                      Math.max(0, m - 1)
+                    )
                   }
                   disabled={calendarMonth === 0}
                   className="p-1 rounded-full hover:bg-red-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white"
+                  aria-label="Previous month"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
 
                 <h3 className="text-xl text-white">
-                  {MONTH_NAMES[calendarMonth]} {calendarYear}
+                  {MONTH_NAMES[calendarMonth]} 2026
                 </h3>
 
                 <button
                   onClick={() =>
-                    setCalendarMonth((m) => Math.min(9, m + 1))
+                    setCalendarMonth((m) =>
+                      Math.min(3, m + 1)
+                    )
                   }
-                  disabled={calendarMonth === 9}
+                  disabled={calendarMonth === 3}
                   className="p-1 rounded-full hover:bg-red-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white"
+                  aria-label="Next month"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
+
               </div>
 
-              {/* Day Labels */}
+              {/* Day Names */}
               <div className="grid grid-cols-7 px-4 pt-4">
+
                 {DAY_NAMES.map((dayName) => (
                   <div
                     key={dayName}
@@ -345,13 +469,18 @@ export default function Home() {
                     {dayName}
                   </div>
                 ))}
+
               </div>
 
               {/* Calendar Cells */}
               <div className="grid grid-cols-7 px-4 pb-6 gap-1">
+
                 {calendarCells.map((day, i) => {
+
                   const dateKey = day
-                    ? `${calendarYear}-${pad(monthIndex + 1)}-${pad(day)}`
+                    ? `${calendarYear}-${pad(
+                        monthIndex + 1
+                      )}-${pad(day)}`
                     : null;
 
                   const events = dateKey
@@ -361,7 +490,7 @@ export default function Home() {
                   return (
                     <div
                       key={i}
-                      className={`min-h-20 rounded-lg p-1 flex flex-col ${
+                      className={`min-h-24 rounded-lg p-1 flex flex-col transition-colors ${
                         day
                           ? events
                             ? 'bg-red-900/40 border border-red-400/50'
@@ -369,6 +498,7 @@ export default function Home() {
                           : ''
                       }`}
                     >
+
                       {day && (
                         <>
                           <span className="text-xs text-white/80 font-medium">
@@ -377,213 +507,290 @@ export default function Home() {
 
                           {events && (
                             <div className="flex flex-col gap-1 mt-1">
-                              {events.map((event, index) => (
-                                <span
-                                  key={index}
-                                  className="text-red-200 leading-tight"
-                                  style={{ fontSize: '9px' }}
-                                >
-                                  {event}
-                                </span>
-                              ))}
+
+                              {events.map(
+                                (event, index) => (
+                                  <span
+                                    key={index}
+                                    className="text-red-200 leading-tight"
+                                    style={{
+                                      fontSize: '9px',
+                                    }}
+                                  >
+                                    {event}
+                                  </span>
+                                )
+                              )}
+
                             </div>
                           )}
                         </>
                       )}
+
                     </div>
                   );
                 })}
+
               </div>
+
             </div>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* What We Offer */}
+      {/* WHAT WE OFFER */}
       <section className="py-20 px-6 bg-gray-50">
+
         <div className="max-w-6xl mx-auto">
+
           <h2 className="text-5xl text-center mb-16 text-black">
             What We Offer
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
+
             {/* Tutorials */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border-t-4 border-red-600">
+
               <div className="flex items-center gap-3 mb-4">
+
                 <BookOpen className="w-10 h-10 text-red-600" />
-                <h3 className="text-2xl text-black">Tutorials</h3>
+
+                <h3 className="text-2xl text-black">
+                  Tutorials
+                </h3>
+
               </div>
 
               <div className="rounded-xl overflow-hidden mb-6">
+
                 <img
                   src={workshop1}
                   alt="Students learning during AI Club tutorial session"
                   className="w-full h-48 object-cover"
                 />
+
               </div>
 
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Build a foundation in Artificial Intelligence, Machine
-                Learning, Deep Learning by attending workshops presented by
-                the club, which include lectures or hands-on learning every
-                meeting.
+                Build a foundation in Artificial Intelligence,
+                Machine Learning, Deep Learning by attending
+                workshops presented by the club, which include
+                lectures or hands-on learning every meeting.
               </p>
 
               <Link to="/materials">
+
                 <Button
                   variant="contained"
                   className="bg-red-600 hover:bg-red-700 text-white"
                 >
                   Learning Materials
                 </Button>
+
               </Link>
+
             </div>
 
             {/* Projects */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border-t-4 border-black">
+
               <div className="flex items-center gap-3 mb-4">
+
                 <Code className="w-10 h-10 text-black" />
-                <h3 className="text-2xl text-black">Projects</h3>
+
+                <h3 className="text-2xl text-black">
+                  Projects
+                </h3>
+
               </div>
 
               <div className="rounded-xl overflow-hidden mb-6">
+
                 <img
                   src={workshop3}
                   alt="Students collaborating on AI projects in computer lab"
                   className="w-full h-48 object-cover"
                 />
+
               </div>
 
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Gain hands on experience tackling real world problems with a
-                team of motivated students! Check out our github for examples
-                and inspiration!
+                Gain hands on experience tackling real world
+                problems with a team of motivated students! Check
+                out our github for examples and inspiration!
               </p>
 
               <Link to="/projects">
+
                 <Button
                   variant="contained"
                   className="bg-black hover:bg-gray-800 text-white"
                 >
                   Past and Current Projects
                 </Button>
+
               </Link>
+
             </div>
 
             {/* Seminars */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border-t-4 border-red-600">
+
               <div className="flex items-center gap-3 mb-4">
+
                 <Mic className="w-10 h-10 text-red-600" />
-                <h3 className="text-2xl text-black">Seminars</h3>
+
+                <h3 className="text-2xl text-black">
+                  Seminars
+                </h3>
+
               </div>
 
               <div className="rounded-xl overflow-hidden mb-6">
+
                 <img
                   src={seminar}
                   alt="Guest speaker presenting at AI Club seminar"
                   className="w-full h-48 object-cover"
                 />
+
               </div>
 
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Join us in listening to various guest speakers from the
-                industry speak about the field of AI and the many things it
-                has to offer.
+                Join us in listening to various guest speakers from
+                the industry speak about the field of AI and the many
+                things it has to offer.
               </p>
+
             </div>
 
             {/* Competitions */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border-t-4 border-black">
+
               <div className="flex items-center gap-3 mb-4">
+
                 <Trophy className="w-10 h-10 text-black" />
+
                 <h3 className="text-2xl text-black">
                   Competitions
                 </h3>
+
               </div>
 
               <div className="rounded-xl overflow-hidden mb-6">
+
                 <img
                   src={competition}
                   alt="Students competing in AI coding competition"
                   className="w-full h-48 object-cover"
                 />
+
               </div>
 
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Learn the latest techniques and gain hands-on experience by
-                competing in coding competitions.
+                Learn the latest techniques and gain hands-on
+                experience by competing in coding competitions.
               </p>
+
             </div>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* What is AI */}
+      {/* WHAT IS AI */}
       <section className="py-20 px-6 bg-white">
+
         <div className="max-w-6xl mx-auto">
+
           <h2 className="text-5xl text-center mb-12 text-black">
             What is AI?
           </h2>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
+
             <div className="space-y-6 text-gray-700 leading-relaxed">
+
               <p>
-                Artificial Intelligence (AI) is the field of computer science
-                that focuses on creating systems that perform tasks that would
-                typically require "human intelligence" or adaptability. Some
-                of these tasks might include things like recognizing images,
-                understanding language, making complex decisions, or learning
-                from experience.
+                Artificial Intelligence (AI) is the field of
+                computer science that focuses on creating systems
+                that perform tasks that would typically require
+                "human intelligence" or adaptability. Some of these
+                tasks might include things like recognizing images,
+                understanding language, making complex decisions,
+                or learning from experience.
               </p>
 
               <p>
-                Much of today's AI is <strong>narrow AI</strong>, meaning it's
-                designed to excel at a specific task, such as a voice
-                assistant, a recommendation system, or a chess engine. In the
-                AI Club, you will typically design and create systems that fall
-                under this category.
+                Much of today's AI is{' '}
+                <strong>narrow AI</strong>, meaning it's designed to
+                excel at a specific task, such as a voice assistant,
+                a recommendation system, or a chess engine. In the
+                AI Club, you will typically design and create systems
+                that fall under this category.
               </p>
 
               <p>
                 The ultimate goal of AI research is{' '}
-                <strong>general AI</strong>. These systems are able to think,
-                adapt, and solve problems across a wide range of areas without
-                specifically being trained on any one particular area. While
-                we're not there yet, AI has already shaped much of our daily
-                lives, and we can't wait to have you explore the field with us!
+                <strong>general AI</strong>. These systems are able
+                to think, adapt, and solve problems across a wide
+                range of areas without specifically being trained on
+                any one particular area. While we're not there yet,
+                AI has already shaped much of our daily lives, and
+                we can't wait to have you explore the field with us!
               </p>
+
             </div>
 
-            {/* AI Subdomains Image */}
+            {/* AI Image */}
             <div className="rounded-2xl overflow-hidden shadow-lg">
+
               <img
                 src={aiSubdomains}
                 alt="AI subdomains diagram"
                 className="w-full h-auto object-contain"
               />
+
             </div>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* Footer */}
+      {/* FOOTER */}
       <footer className="bg-black text-white py-12 px-6">
+
         <div className="max-w-6xl mx-auto text-center">
+
           <div className="mb-6 flex justify-center">
+
             <img
               src={logo}
               alt="SDSU AI Club Logo"
               className="w-48 h-auto"
             />
+
           </div>
 
           <p className="text-gray-400 mb-6">
-            Empowering students to explore artificial intelligence since 2017
+            Empowering students to explore artificial intelligence
+            since 2017
           </p>
 
-          <div className="flex justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
+
             <a
               href="https://discord.gg/wvAn6Gj3Q"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-400 hover:text-red-400 transition-colors"
             >
               Discord
@@ -591,6 +798,8 @@ export default function Home() {
 
             <a
               href="https://github.com/aiclub-sdsu"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-400 hover:text-red-400 transition-colors"
             >
               GitHub
@@ -598,6 +807,8 @@ export default function Home() {
 
             <a
               href="https://www.instagram.com/sdsuaiclub/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-400 hover:text-red-400 transition-colors"
             >
               Instagram
@@ -609,9 +820,13 @@ export default function Home() {
             >
               Email
             </a>
+
           </div>
+
         </div>
+
       </footer>
+
     </div>
   );
 }
