@@ -323,7 +323,7 @@ export default function Home() {
               className="bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg transition-all hover:scale-105"
               onClick={() =>
                 window.open(
-                  'https://discord.gg/wvAn6Gj3Q',
+                  'https://discord.gg/Rp8tnQr9dr',
                   '_blank'
                 )
               }
