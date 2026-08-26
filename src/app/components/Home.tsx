@@ -729,7 +729,7 @@ export default function Home() {
           <div className="flex flex-wrap justify-center gap-6">
 
             <a
-              href="https://discord.gg/wvAn6Gj3Q"
+              href="https://discord.gg/Rp8tnQr9dr"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-red-400 transition-colors"
