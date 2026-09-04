@@ -5,6 +5,8 @@ import LearningMaterials from './components/LearningMaterials';
 import Projects from './components/Projects';
 import Calendar from './components/Calendar';
 import CurrentProjects from './components/CurrentProjects';
+import InHouseProjects from './components/InHouseProjects';
+import IndustryProjects from './components/IndustryProjects';
 
 export default function App() {
   return (
@@ -16,6 +18,8 @@ export default function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/current-projects" element={<CurrentProjects />} />
+        <Route path="/current-projects/in-house" element={<InHouseProjects />} />
+        <Route path="/current-projects/industry" element={<IndustryProjects />} />
       </Routes>
     </BrowserRouter>
   );
