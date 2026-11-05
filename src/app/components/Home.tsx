@@ -1,5 +1,6 @@
 import {
   MapPin,
+  CalendarDays,
   Users,
   BookOpen,
   Code,
@@ -78,56 +79,8 @@ const slideshowPhotos = [
   collage27,
 ];
 
-const EVENTS: Record<string, string[]> = {
-  '2026-09-11': ['Project Introductions', 'Python + ML Workshop'],
-  '2026-09-18': ['Group Formation', 'Social'],
-  '2026-09-25': ['Speaker'],
-
-  '2026-10-02': ['Social', 'Project Worktime'],
-  '2026-10-09': ['Workshop'],
-  '2026-10-16': ['Project Worktime', 'Social'],
-  '2026-10-23': ['Midterm Presentations'],
-  '2026-10-30': ['Workshop'],
-
-  '2026-11-06': ['Hackathon', 'Project Worktime'],
-  '2026-11-13': ['Speaker'],
-  '2026-11-20': ['Workshop', 'Project Worktime'],
-
-  '2026-12-04': ['Final Presentations'],
-};
-
-const MONTH_NAMES = [
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-const MONTH_INDEXES = [8, 9, 10, 11];
-
-const DAY_NAMES = [
-  'Sun',
-  'Mon',
-  'Tue',
-  'Wed',
-  'Thu',
-  'Fri',
-  'Sat',
-];
-
-function pad(n: number) {
-  return String(n).padStart(2, '0');
-}
-
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  // Calendar:
-  // 0 = September
-  // 1 = October
-  // 2 = November
-  // 3 = December
-  const [calendarMonth, setCalendarMonth] = useState(0);
 
   const nextSlide = useCallback(() => {
     setCurrentSlide(
@@ -148,33 +101,6 @@ export default function Home() {
 
     return () => clearInterval(timer);
   }, [nextSlide]);
-
-  const monthIndex = MONTH_INDEXES[calendarMonth];
-  const calendarYear = 2026;
-
-  const firstDay = new Date(
-    calendarYear,
-    monthIndex,
-    1
-  ).getDay();
-
-  const daysInMonth = new Date(
-    calendarYear,
-    monthIndex + 1,
-    0
-  ).getDate();
-
-  const calendarCells: (number | null)[] = [
-    ...Array(firstDay).fill(null),
-    ...Array.from(
-      { length: daysInMonth },
-      (_, i) => i + 1
-    ),
-  ];
-
-  while (calendarCells.length % 7 !== 0) {
-    calendarCells.push(null);
-  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -289,6 +215,23 @@ export default function Home() {
                 Fridays from 1:00-3:00 PM
               </p>
 
+              <div className="mt-6">
+                <Link to="/calendar">
+                  <Button
+                    variant="contained"
+                    startIcon={<CalendarDays />}
+                    className="py-3 px-6 rounded-lg transition-all hover:scale-105"
+                    sx={{
+                      backgroundColor: '#fff',
+                      color: '#dc2626',
+                      '&:hover': { backgroundColor: '#f3f4f6' },
+                    }}
+                  >
+                    View Club Calendar
+                  </Button>
+                </Link>
+              </div>
+
             </div>
 
             <div className="bg-black/90 backdrop-blur-sm rounded-2xl p-8 flex flex-col justify-center">
@@ -357,125 +300,6 @@ export default function Home() {
                 Current Projects
               </Button>
             </Link>
-
-          </div>
-
-          {/* CALENDAR */}
-          <div className="mt-12 max-w-3xl mx-auto">
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden">
-
-              {/* Month Header */}
-              <div className="flex items-center justify-between bg-red-600 px-6 py-4">
-
-                <button
-                  onClick={() =>
-                    setCalendarMonth((m) =>
-                      Math.max(0, m - 1)
-                    )
-                  }
-                  disabled={calendarMonth === 0}
-                  className="p-1 rounded-full hover:bg-red-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white"
-                  aria-label="Previous month"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-
-                <h3 className="text-xl text-white">
-                  {MONTH_NAMES[calendarMonth]} 2026
-                </h3>
-
-                <button
-                  onClick={() =>
-                    setCalendarMonth((m) =>
-                      Math.min(3, m + 1)
-                    )
-                  }
-                  disabled={calendarMonth === 3}
-                  className="p-1 rounded-full hover:bg-red-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-white"
-                  aria-label="Next month"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-
-              </div>
-
-              {/* Day Names */}
-              <div className="grid grid-cols-7 px-4 pt-4">
-
-                {DAY_NAMES.map((dayName) => (
-                  <div
-                    key={dayName}
-                    className="text-center text-xs text-white/50 font-medium py-2"
-                  >
-                    {dayName}
-                  </div>
-                ))}
-
-              </div>
-
-              {/* Calendar Cells */}
-              <div className="grid grid-cols-7 px-4 pb-6 gap-1">
-
-                {calendarCells.map((day, i) => {
-
-                  const dateKey = day
-                    ? `${calendarYear}-${pad(
-                        monthIndex + 1
-                      )}-${pad(day)}`
-                    : null;
-
-                  const events = dateKey
-                    ? EVENTS[dateKey]
-                    : undefined;
-
-                  return (
-                    <div
-                      key={i}
-                      className={`min-h-24 rounded-lg p-1 flex flex-col transition-colors ${
-                        day
-                          ? events
-                            ? 'bg-red-900/40 border border-red-400/50'
-                            : 'hover:bg-white/10'
-                          : ''
-                      }`}
-                    >
-
-                      {day && (
-                        <>
-                          <span className="text-xs text-white/80 font-medium">
-                            {day}
-                          </span>
-
-                          {events && (
-                            <div className="flex flex-col gap-1 mt-1">
-
-                              {events.map(
-                                (event, index) => (
-                                  <span
-                                    key={index}
-                                    className="text-red-200 leading-tight"
-                                    style={{
-                                      fontSize: '9px',
-                                    }}
-                                  >
-                                    {event}
-                                  </span>
-                                )
-                              )}
-
-                            </div>
-                          )}
-                        </>
-                      )}
-
-                    </div>
-                  );
-                })}
-
-              </div>
-
-            </div>
 
           </div>
 
